@@ -55,7 +55,7 @@ Google Components:
 * Download and configure the [Google Plugin for Eclipse for your IDE version](https://developers.google.com/eclipse/docs/getting_started)
 * Download and configure the [Android SDK, 20131030](http://developer.android.com/sdk/index.html)
 * Download and configure the [Google Cloud Storage command line tool, gsutil, 3.37](https://developers.google.com/storage/docs/gsutil)
-* Download and configure the [Google Compute Engine command line tool, gcutil, 1.10.0](https://developers.google.com/compute/docs/gcutil/)
+* Download and configure the [Google Compute Engine command line tool, gcutil, 1.12.0](https://developers.google.com/compute/docs/gcutil/)
 
 ## Creating a Google Cloud Platform project
 1. Create a project using the [Google Cloud Console](https://cloud.google.com/console)
