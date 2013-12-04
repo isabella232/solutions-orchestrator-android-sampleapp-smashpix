@@ -51,17 +51,17 @@ Google Components:
 
 * Make sure you have Java installed.
 * Download and configure Eclipse.
-* Download and configure the [Google App Engine Python SDK](https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python)
+* Download and configure the [Google App Engine Python SDK, 1.8.8](https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python)
 * Download and configure the [Google Plugin for Eclipse for your IDE version](https://developers.google.com/eclipse/docs/getting_started)
-* Download and configure the [Android SDK](http://developer.android.com/sdk/index.html)
-* Download and configure the [Google Cloud Storage command line tool, gsutil](https://developers.google.com/storage/docs/gsutil)
-* Download and configure the [Google Compute Engine command line tool, gcutil](https://developers.google.com/compute/docs/gcutil/)
+* Download and configure the [Android SDK, 20131030](http://developer.android.com/sdk/index.html)
+* Download and configure the [Google Cloud Storage command line tool, gsutil, 3.37](https://developers.google.com/storage/docs/gsutil)
+* Download and configure the [Google Compute Engine command line tool, gcutil, 1.10.0](https://developers.google.com/compute/docs/gcutil/)
 
 ## Creating a Google Cloud Platform project
 1. Create a project using the [Google Cloud Console](https://cloud.google.com/console)
 2. Enter a project name and project ID, [PROJECT\_ID]. The project ID will be your Google App Engine ID, [APPENGINE\_ID].
-3. Select "Google Compute Engine" from the main project console. You will need to enable billing to use Google Compute Engine.
-4. Select "APIs" from the main project console. Enable the following APIs.
+3. Select "Compute Engine" from the main project console. You will need to enable billing to use Google Compute Engine.
+4. Select "APIs & Auth" from the main project console. Enable the following APIs under "APIs"
     * Google Cloud Storage
     * Google Cloud Storage JSON API
     * TaskQueue API
@@ -70,20 +70,25 @@ Google Components:
 Create client IDs to allow authentication and authorization between components, [Using OAuth 2.0 to Access Google APIs](https://developers.google.com/accounts/docs/OAuth2).
 
 #### Create a Client ID for web applications
-1. Select your project in [https://code.google.com/apis/console/](https://code.google.com/apis/console/)
-2. Select "API Access" (Left navigation)
-3. Click the "Create another client ID" button
-4. Under "Application type" > Select "Web application"
-5. Under "Your site or hostname" > Enter site or hostname: [APPENGINE\_ID].appspot.com
-6. Create client ID. This is the Client ID for your web application, [CLIENT\_ID\_WEB_APPLICATION]
+1. Select your project in [https://cloud.google.com/console/](https://cloud.google.com/console/)
+2. Select "APIs & Auth" followed by "Registered apps" (Left navigation)
+3. Click the "Register App" button
+4. Enter "Name" of the application
+5. Under "Platform" > Select "Web Application" > "Register"
+6. Expand "OAuth 2.0 Client ID"
+7. Under "Web Origin" > Enter site or hostname: https://[APPENGINE\_ID].appspot.com
+8. Create client ID. This is the Client ID for your web application, [CLIENT\_ID\_WEB_APPLICATION]
 
 #### Create a Service account
-1. Select your project in [https://code.google.com/apis/console/](https://code.google.com/apis/console/)
-2. Select "API Access" (Left navigation)
-3. Click the "Create another client ID" button
-4. Under "Application type" > Select "Service account"
-5. Create client ID. This is the Service account, [SERVICE\_ACCOUNT]
-7. Download private key and store it in a secure location. This is the service account private key file, [SERVICE\_ACCOUNT\_PRIVATE\_KEY]
+1. Select your project in [https://cloud.google.com/console/](https://cloud.google.com/console/)
+2. Select "APIs & Auth" followed by "Registered apps" (Left navigation)
+3. Click the "Register App" button
+4. Enter "Name" of the application
+5. Under "Platform" > Select "Web Application" > "Register"
+6. Expand "Certificate"
+7. Click "Generate Certificate"
+8. The email address is the Service account, [SERVICE\_ACCOUNT]
+9. "Download private key and store it in a secure location. This is the service account private key file, [SERVICE\_ACCOUNT\_PRIVATE\_KEY]
     * Remember your private key's password.
 
 #### Create a Client ID for installed applications
@@ -93,14 +98,14 @@ Create client IDs to allow authentication and authorization between components, 
 2. Enter the keystore password: android
 3. The returned value is the CERTIFICATE\_FINGERPRINT.
   <pre>(stdin)= [CERTIFICATE\_FINGERPRINT]</pre>
-4. Select your project in [https://code.google.com/apis/console/](https://code.google.com/apis/console/)
-5. Select "API Access" (Left navigation)
-6. Click the "Create another client ID" button
-7. Under "Application type" > Select "Installed applications"
-8. Under "Installed application type" > Select "Android"
+4. Select your project in [https://cloud.google.com/console/](https://cloud.google.com/console/)
+5. Select "APIs & Auth" followed by "Registered apps" (Left navigation)
+6. Click the "Register App" button
+7. Enter "Name" of the application
+8. Under "Platform" > Select "Android" followed by "Accessing APIs directly from Android"
 9. Enter package name: com.google.cloud.solutions.smashpix
 10. Enter signing certificate fingerprint (SHA1): [CERTIFICATE\_FINGERPRINT]
-11. Leave Deep Linking disabled.
+11. Click "Register"
 12. Create client ID. This is the Client ID for your installed application, [CLIENT\_ID\_INSTALLED\_APPLICATION]
 
 
@@ -108,7 +113,7 @@ Create client IDs to allow authentication and authorization between components, 
 
 ### Dependencies
 
-* Download the [Google Cloud Storage App Engine client](https://code.google.com/p/appengine-gcs-client/)
+* Download the [Google Cloud Storage App Engine client, r65](https://code.google.com/p/appengine-gcs-client/)
 
 ### Configuring the backend server (Google App Engine)
 
@@ -173,6 +178,10 @@ At this point, you should be able to upload images from the UI for testing purpo
 Configure gcutil on the main system to connect your project.
     <pre>@main:~$ gcutil auth --project=[PROJECT\_ID]</pre>
 
+### Dependencies
+
+* Download the [Google APIs Client Library for Python, 1.2](https://code.google.com/p/google-api-python-client/)
+
 
 ### Setting up Google Compute Engine
 1. Select "Google Compute Engine" from the main project console.
@@ -182,14 +191,14 @@ Configure gcutil on the main system to connect your project.
     * Boot Source: New presistent disk from image
     * Use default values for all other settings.
 3. Go to the instance page after creation of the instance. Click "ssh" under "Equivalent REST or ssh" at the bottom of the page to obtain gcutil command line needed to SSH into the instance.
-    <pre>@main:~$ gcutil --service_version="v1beta15" \
+    <pre>@main:~$ gcutil --service_version="v1" \
         --project="[PROJECT\_ID]" ssh --zone="[INSTANCE\_ZONE]" \
         "[INSTANCE\_NAME]"</pre>
 4. SSH into the instance to set up the Command line daemon
 
 ### Setting up the Command line daemon
 1. Copy the command line daemon files to the instance from your main system. "." represents the root of the home directory on the Google Compute Engine instance.
-    <pre>@main:~$ gcutil --service_version="v1beta15" \
+    <pre>@main:~$ gcutil --service_version="v1" \
         --project="[PROJECT\_ID]" push --zone="[INSTANCE\_ZONE]" \
         "[INSTANCE\_NAME]" daemon/ .</pre>
 2. Confirm that the files have been copied over
@@ -212,7 +221,7 @@ compute\_engine\_daemon.py  image_processing.py  quotes.txt settings.py</pre>
     @instance:~$ sudo pip install gsutil
     </pre>
 4. Copy private key over
-    <pre>@main:~$ gcutil --service_version="v1beta15" \
+    <pre>@main:~$ gcutil --service_version="v1" \
         --project="[PROJECT\_ID]" push --zone="[INSTANCE\_ZONE]" \
         "smashpix-master" [SERVICE\_ACCOUNT\_PRIVATE\_KEY] ./.ssh/.
     </pre>
@@ -236,7 +245,7 @@ At this point, you should be able to view the processed image
 
 ### Dependencies
 
-* Download the [Apache HttpComponents Client](http://hc.apache.org/httpcomponents-client-ga/index.html)
+* Download the [Apache HttpComponents Client, 4.3.1](http://hc.apache.org/httpcomponents-client-ga/index.html)
 
 ### Setting up the Android project in Eclipse
 
@@ -281,8 +290,5 @@ You should have downloaded the mobile application sample code. Extract the files
 5. Copy the Google Play Service library
     * Browse to <code>[ANDROID\_SDK]/extras/google/google\_play\_services/libproject/google-play-services_lib/libs/</code>.
     * Copy <code>google-play-services.jar</code> into your Android code library folder, <code>[MOBILE\_APP\_CODE]/libs/</code>.
-6. Make sure all code dependencies are resolved.
-7. Run Android application.
-LE\_APP\_CODE]/libs/</code>.
 6. Make sure all code dependencies are resolved.
 7. Run Android application.

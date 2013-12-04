@@ -25,7 +25,7 @@ import yaml
 from models import Bitdoc
 
 from google.appengine.api import app_identity
-from google.appengine.ext import endpoints
+import endpoints
 
 # Load config options from settings.cfg
 config = yaml.load(open('settings.cfg', 'r'))
